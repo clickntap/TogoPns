@@ -1,4 +1,4 @@
-package com.togocms.pns;
+package com.togocms.pns.api;
 
 import java.util.List;
 
