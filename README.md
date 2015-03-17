@@ -1,2 +1,2 @@
-# Togo.Pns
+# TogoPns
 Push Notification System
