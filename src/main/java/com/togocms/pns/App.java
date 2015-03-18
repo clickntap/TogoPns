@@ -2,6 +2,7 @@ package com.togocms.pns;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
@@ -79,15 +80,19 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 						message.read();
 						if (message.getWorkflow().intValue() == 0) {
 							Channel channel = message.getChannel();
+							List<String> addedTokens = new ArrayList<String>();
 							for (Device device : channel.getDevices()) {
-								Push item = new Push();
-								item.setApp(App.this);
-								item.setToken(device.getToken());
-								item.setPlatform(device.getPlatform());
-								item.setMessageId(message.getId());
-								item.setCreationTime(new Datetime());
-								item.setLastModified(item.getCreationTime());
-								item.create();
+								if (!addedTokens.contains(device.getToken())) {
+									addedTokens.add(device.getToken());
+									Push item = new Push();
+									item.setApp(App.this);
+									item.setToken(device.getToken());
+									item.setPlatform(device.getPlatform());
+									item.setMessageId(message.getId());
+									item.setCreationTime(new Datetime());
+									item.setLastModified(item.getCreationTime());
+									item.create();
+								}
 							}
 							message.setLastModified(new Datetime());
 							message.execute("queued");
@@ -111,11 +116,7 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 									int androidSent = androidDevices.size();
 									int androidFails = 0;
 									for (String badToken : notification.send()) {
-										Device device = new Device();
-										device.setApp(App.this);
-										device.setToken(badToken);
-										device.read("token");
-										device.execute("disable");
+										disableDevice(badToken);
 										androidSent--;
 										androidFails++;
 									}
@@ -139,11 +140,7 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 									int iosSent = iosDevices.size();
 									int iosFails = 0;
 									for (String badToken : notification.send()) {
-										Device device = new Device();
-										device.setApp(App.this);
-										device.setToken(badToken);
-										device.read("token");
-										device.execute("disable");
+										disableDevice(badToken);
 										iosSent--;
 										iosFails++;
 									}
@@ -161,6 +158,17 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 					status.setRollbackOnly();
 				}
 				return null;
+			}
+
+			private void disableDevice(String badToken) {
+				try {
+					Device device = new Device();
+					device.setApp(App.this);
+					device.setToken(badToken);
+					device.read("token");
+					device.execute("disable");
+				} catch (Exception e) {
+				}
 			}
 		});
 	}
