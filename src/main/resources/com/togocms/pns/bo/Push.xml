@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean cache="push">
+	<read name="id">
+		select
+		id,
+		token
+		from
+		pns_queue
+		where
+		id = ${this.id}
+	</read>
+	<create>
+		insert into pns_queue (
+		user_id,
+		message_id,
+		token,
+		platform,
+		creation_time,
+		last_modified
+		) values (
+		${this.userId},
+		${this.messageId},
+		${this.token},
+		${this.platform},
+		${this.creationTime},
+		${this.lastModified}
+		)
+	</create>
+	<delete>delete from pns_queue where id = ${this.id}</delete>
+	<curr-val>select LAST_INSERT_ID() as id</curr-val>
+</bean>

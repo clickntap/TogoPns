@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean cache="device">
+	<read name="id">
+		select
+		id,
+		platform,
+		token
+		from
+		pns_device
+		where
+		id = ${this.id}
+	</read>
+	<read name="token">
+		select
+		id
+		from
+		pns_device
+		where
+		token = ${this.token}
+	</read>
+	<execute name="disable">
+		update pns_device
+		set disabled = 1
+		where
+		id = ${this.id}
+	</execute>
+</bean>
