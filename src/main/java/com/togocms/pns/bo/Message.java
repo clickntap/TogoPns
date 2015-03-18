@@ -12,6 +12,10 @@ public class Message extends BO {
 	private Number workflow;
 	private Datetime creationTime;
 	private Datetime lastModified;
+	private Number iosSent;
+	private Number iosFails;
+	private Number androidSent;
+	private Number androidFails;
 
 	public Number getChannelId() {
 		return channelId;
@@ -67,6 +71,42 @@ public class Message extends BO {
 
 	public List<Push> getNextAndroidPushes() throws Exception {
 		return getApp().getBOListByFilter(Push.class, this, "android-pushes");
+	}
+
+	public List<Push> getNextIosPushes() throws Exception {
+		return getApp().getBOListByFilter(Push.class, this, "ios-pushes");
+	}
+
+	public Number getIosSent() {
+		return iosSent;
+	}
+
+	public void setIosSent(Number iosSent) {
+		this.iosSent = iosSent;
+	}
+
+	public Number getIosFails() {
+		return iosFails;
+	}
+
+	public void setIosFails(Number iosFails) {
+		this.iosFails = iosFails;
+	}
+
+	public Number getAndroidSent() {
+		return androidSent;
+	}
+
+	public void setAndroidSent(Number androidSent) {
+		this.androidSent = androidSent;
+	}
+
+	public Number getAndroidFails() {
+		return androidFails;
+	}
+
+	public void setAndroidFails(Number androidFails) {
+		this.androidFails = androidFails;
 	}
 
 }

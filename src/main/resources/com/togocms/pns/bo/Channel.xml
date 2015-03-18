@@ -6,13 +6,21 @@
 		name,
 		api_key as "apiKey",
 		secret_key as "secretKey",
-		key_store_path as "keyStorePath",
+		key_store as "keyStore",
 		key_store_password as "keyStorePassword",
 		production
 		from
 		pns_channel
 		where
 		id = ${this.id}
+	</read>
+	<read name="apiKey">
+		select
+		id
+		from
+		pns_channel
+		where
+		api_key = ${this.apiKey}
 	</read>
 	<read-list name="all">
 		select id from pns_channel order by name

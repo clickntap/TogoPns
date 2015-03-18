@@ -5,7 +5,7 @@ import com.clickntap.utils.SecurityUtils;
 public class KeyGenerator {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(SecurityUtils.sha1("prenata-app-rcs"));
+		System.out.println(SecurityUtils.sha1("__"));
 	}
 
 }

@@ -9,6 +9,7 @@
 	</bean>
 	<bean id="app" class="com.togocms.pns.App" init-method="init">
 		<property name="beanManager" ref="beanManager" />
+		<property name="resourcesDir" value="/WEB-INF/resources/" />
 	</bean>
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">

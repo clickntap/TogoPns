@@ -9,7 +9,7 @@ public class Channel extends BO {
 	private String name;
 	private String apiKey;
 	private String secretKey;
-	private String keyStorePath;
+	private String keyStore;
 	private String keyStorePassword;
 	private Number production;
 
@@ -37,12 +37,12 @@ public class Channel extends BO {
 		this.secretKey = secretKey;
 	}
 
-	public String getKeyStorePath() {
-		return keyStorePath;
+	public String getKeyStore() {
+		return keyStore;
 	}
 
-	public void setKeyStorePath(String keyStorePath) {
-		this.keyStorePath = keyStorePath;
+	public void setKeyStore(String keyStore) {
+		this.keyStore = keyStore;
 	}
 
 	public String getKeyStorePassword() {

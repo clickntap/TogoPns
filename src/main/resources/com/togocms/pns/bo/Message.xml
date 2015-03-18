@@ -21,6 +21,9 @@
 		pns_message where workflow != 2
 		order by creation_time desc limit 1
 	</read>
+	<read-list name="ios-pushes">
+		select id from pns_queue where platform = 1 and message_id = ${this.id}
+	</read-list>
 	<read-list name="android-pushes">
 		select id from pns_queue where platform = 2 and message_id = ${this.id}
 	</read-list>
@@ -34,6 +37,10 @@
 	<execute name="sent">
 		update pns_message set
 		workflow = 2,
+		ios_sent = ios_sent+${this.iosSent},
+		ios_fails = ios_fails+${this.iosFails},
+		android_sent = android_sent+${this.androidSent},
+		android_fails = android_fails+${this.androidFails},
 		last_modified = ${this.lastModified}
 		where
 		id = ${this.id}
@@ -44,6 +51,10 @@
 		title,
 		alert,
 		workflow,
+		ios_sent,
+		ios_fails,
+		android_sent,
+		android_fails,
 		creation_time,
 		last_modified
 		) values (
@@ -51,6 +62,10 @@
 		${this.title},
 		${this.alert},
 		${this.workflow},
+		0,
+		0,
+		0,
+		0,
 		${this.creationTime},
 		${this.lastModified}
 		)
