@@ -1,10 +1,13 @@
 package com.togocms.pns.bo;
 
+import java.util.List;
+
 import com.clickntap.hub.BO;
 import com.clickntap.tool.types.Datetime;
 
 public class Message extends BO {
 	private Number channelId;
+	private String title;
 	private String alert;
 	private Number workflow;
 	private Datetime creationTime;
@@ -16,6 +19,14 @@ public class Message extends BO {
 
 	public void setChannelId(Number channelId) {
 		this.channelId = channelId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getAlert() {
@@ -48,6 +59,14 @@ public class Message extends BO {
 
 	public void setLastModified(Datetime lastModified) {
 		this.lastModified = lastModified;
+	}
+
+	public Channel getChannel() throws Exception {
+		return getApp().getBO(Channel.class, getChannelId());
+	}
+
+	public List<Push> getNextAndroidPushes() throws Exception {
+		return getApp().getBOListByFilter(Push.class, this, "android-pushes");
 	}
 
 }

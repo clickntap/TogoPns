@@ -10,5 +10,21 @@
 	<bean id="app" class="com.togocms.pns.App" init-method="init">
 		<property name="beanManager" ref="beanManager" />
 	</bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="syncTrigger" />
+			</list>
+		</property>
+	</bean>
+	<bean id="syncJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="app" />
+		<property name="targetMethod" value="sync" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="syncTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="syncJob" />
+		<property name="cronExpression" value="* * * * * ?" />
+	</bean>
 	<import resource="classpath:app-orm-inc.xml" />
 </beans>

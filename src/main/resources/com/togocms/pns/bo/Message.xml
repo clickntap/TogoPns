@@ -2,20 +2,53 @@
 <bean cache="message">
 	<read name="id">
 		select
-		id
+		id,
+		title,
+		alert,
+		workflow,
+		channel_id as "channelId",
+		creation_time as "creationTime",
+		last_modified as "lastModified"
+		from
 		pns_message
 		where
 		id = ${this.id}
 	</read>
+	<read name="next">
+		select
+		id
+		from
+		pns_message where workflow != 2
+		order by creation_time desc limit 1
+	</read>
+	<read-list name="android-pushes">
+		select id from pns_queue where platform = 2 and message_id = ${this.id}
+	</read-list>
+	<execute name="queued">
+		update pns_message set
+		workflow = 1,
+		last_modified = ${this.lastModified}
+		where
+		id = ${this.id}
+	</execute>
+	<execute name="sent">
+		update pns_message set
+		workflow = 2,
+		last_modified = ${this.lastModified}
+		where
+		id = ${this.id}
+	</execute>
 	<create>
 		insert into pns_message (
 		channel_id,
+		title,
 		alert,
 		workflow,
 		creation_time,
 		last_modified
 		) values (
 		${this.channelId},
+		${this.title},
 		${this.alert},
 		${this.workflow},
 		${this.creationTime},

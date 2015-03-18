@@ -17,4 +17,7 @@
 	<read-list name="all">
 		select id from pns_channel order by name
 	</read-list>
+	<read-list name="devices">
+		select id from pns_device where channel_id = ${this.id} and (disabled is null or disabled = 0)
+	</read-list>
 </bean>

@@ -1,5 +1,7 @@
 package com.togocms.pns.bo;
 
+import java.util.List;
+
 import com.clickntap.hub.BO;
 
 public class Channel extends BO {
@@ -57,6 +59,10 @@ public class Channel extends BO {
 
 	public void setProduction(Number production) {
 		this.production = production;
+	}
+
+	public List<Device> getDevices() throws Exception {
+		return getApp().getBOListByFilter(Device.class, this, "devices");
 	}
 
 }
