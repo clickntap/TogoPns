@@ -1,0 +1,3 @@
+<smart-controller>
+    <include ref="web"/>
+</smart-controller>

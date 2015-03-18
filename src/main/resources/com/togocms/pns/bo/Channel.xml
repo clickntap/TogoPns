@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean cache="channel">
+	<read name="id">
+		select
+		id,
+		name,
+		secret_key as "secretKey",
+		key_store_path as "keyStorePath",
+		key_store_password as "keyStorePassword",
+		production
+		from
+		pns_channel
+		where
+		id = ${this.id}
+	</read>
+	<read-list name="all">
+		select id from pns_channel order by name
+	</read-list>
+</bean>

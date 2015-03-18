@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean cache="message">
+	<read name="id">
+		select
+		id
+		pns_message
+		where
+		id = ${this.id}
+	</read>
+	<create>
+		insert into pns_message (
+		channel_id,
+		alert,
+		workflow,
+		creation_time,
+		last_modified
+		) values (
+		${this.channelId},
+		${this.alert},
+		${this.workflow},
+		${this.creationTime},
+		${this.lastModified}
+		)
+	</create>
+	<curr-val>select LAST_INSERT_ID() as id</curr-val>
+</bean>

@@ -1,0 +1,8 @@
+<smart-controller>
+	<action>
+		<bind name="ws" class="com.togocms.pns.WorkSession" scope="session" channel="app" />
+		<exec>
+			${ws.setCtx(this)}
+		</exec>
+	</action>
+</smart-controller>
