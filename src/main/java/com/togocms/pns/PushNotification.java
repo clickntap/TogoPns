@@ -5,19 +5,41 @@ import com.togocms.pns.api.PushNotificationService;
 
 public class PushNotification {
 	private PushNotificationService service;
-	private String channel;
+	private String apiKey;
+	private String title;
+	private String alert;
+	private Long id;
 
-	public PushNotification(String channel) throws Exception {
-		this("http://pns.togocms.com/pns-service.app", channel);
+	public PushNotification(String apiKey) throws Exception {
+		this(apiKey, "http://pns.togocms.com/pns-service.app");
 	}
 
-	public PushNotification(String channel, String serverUrl) throws Exception {
-		this.channel = channel;
+	public PushNotification(String apiKey, String serverUrl) throws Exception {
+		this.apiKey = apiKey;
 		this.service = (PushNotificationService) new HessianProxyFactory().create(PushNotificationService.class, serverUrl);
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAlert() {
+		return alert;
+	}
+
+	public void setAlert(String alert) {
+		this.alert = alert;
 	}
 
 	public Long send() throws Exception {
 		com.togocms.pns.api.PushNotification notification = new com.togocms.pns.api.PushNotification();
-		return service.sendBroadcastNotification(channel, notification);
+		notification.setTitle(getTitle());
+		notification.setAlert(getAlert());
+		id = service.sendBroadcastNotification(apiKey, notification);
+		return id;
 	}
 }

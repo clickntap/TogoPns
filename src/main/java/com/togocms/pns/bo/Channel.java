@@ -5,6 +5,7 @@ import com.clickntap.hub.BO;
 public class Channel extends BO {
 
 	private String name;
+	private String apiKey;
 	private String secretKey;
 	private String keyStorePath;
 	private String keyStorePassword;
@@ -16,6 +17,14 @@ public class Channel extends BO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getApiKey() {
+		return apiKey;
+	}
+
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
 	}
 
 	public String getSecretKey() {

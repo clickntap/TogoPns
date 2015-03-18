@@ -7,7 +7,7 @@ public class Message extends BO {
 	private Number channelId;
 	private String alert;
 	private Number workflow;
-	private Datetime creationDate;
+	private Datetime creationTime;
 	private Datetime lastModified;
 
 	public Number getChannelId() {
@@ -34,12 +34,12 @@ public class Message extends BO {
 		this.workflow = workflow;
 	}
 
-	public Datetime getCreationDate() {
-		return creationDate;
+	public Datetime getCreationTime() {
+		return creationTime;
 	}
 
-	public void setCreationDate(Datetime creationDate) {
-		this.creationDate = creationDate;
+	public void setCreationTime(Datetime creationDate) {
+		this.creationTime = creationDate;
 	}
 
 	public Datetime getLastModified() {

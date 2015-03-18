@@ -5,6 +5,7 @@
 		<property name="mappings">
 			<props>
 				<prop key="**/*.app">smartSwitcher</prop>
+				<prop key="pns-service.app">pnsService</prop>
 			</props>
 		</property>
 	</bean>

@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface PushNotificationService {
 
-	public Long sendBroadcastNotification(String channel, PushNotification pushNotification) throws Exception;
+	public Long sendBroadcastNotification(String apiKey, PushNotification pushNotification) throws Exception;
 
-	public Long sendNotification(String channel, PushNotification pushNotification, Long userId) throws Exception;
+	public Long sendNotification(String apiKey, PushNotification pushNotification, Long userId) throws Exception;
 
-	public Long sendGroupNotification(String channel, PushNotification pushNotification, List<Long> userIds) throws Exception;
+	public Long sendGroupNotification(String apiKey, PushNotification pushNotification, List<Long> userIds) throws Exception;
 
 }

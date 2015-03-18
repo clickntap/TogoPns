@@ -4,6 +4,7 @@
 		select
 		id,
 		name,
+		api_key as "apiKey",
 		secret_key as "secretKey",
 		key_store_path as "keyStorePath",
 		key_store_password as "keyStorePassword",
