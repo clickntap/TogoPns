@@ -1,5 +1,7 @@
 package com.togocms.pns;
 
+import java.util.List;
+
 import com.caucho.hessian.client.HessianProxyFactory;
 import com.togocms.pns.api.PushNotificationService;
 
@@ -9,6 +11,14 @@ public class PushNotification {
 	private String title;
 	private String alert;
 	private Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public PushNotification(String apiKey) throws Exception {
 		this(apiKey, "http://pns.togocms.com/pns-service.app");
@@ -35,11 +45,19 @@ public class PushNotification {
 		this.alert = alert;
 	}
 
-	public Long send() throws Exception {
+	public Long sendBroadcast() throws Exception {
 		com.togocms.pns.api.PushNotification notification = new com.togocms.pns.api.PushNotification();
 		notification.setTitle(getTitle());
 		notification.setAlert(getAlert());
-		id = service.sendBroadcastNotification(apiKey, notification);
-		return id;
+		service.sendBroadcastNotification(apiKey, notification);
+		return getId();
+	}
+
+	public Long sendGroup(List<Long> ids) throws Exception {
+		com.togocms.pns.api.PushNotification notification = new com.togocms.pns.api.PushNotification();
+		notification.setTitle(getTitle());
+		notification.setAlert(getAlert());
+		service.sendGroupNotification(apiKey, notification, ids);
+		return getId();
 	}
 }

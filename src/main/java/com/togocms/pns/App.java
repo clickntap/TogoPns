@@ -38,18 +38,42 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 	}
 
 	public Long sendBroadcastNotification(String apiKey, PushNotification notification) throws Exception {
-		Long id = createMessage(apiKey, notification);
-		return id;
+		createMessage(apiKey, notification, 0);
+		return notification.getId();
 	}
 
 	public Long sendNotification(String apiKey, PushNotification notification, Long userId) throws Exception {
-		Long id = createMessage(apiKey, notification);
-		return id;
+		List<Long> userIds = new ArrayList<Long>();
+		userIds.add(userId);
+		return sendGroupNotification(apiKey, notification, userIds);
 	}
 
-	public Long sendGroupNotification(String apiKey, PushNotification notification, List<Long> userIds) throws Exception {
-		Long id = createMessage(apiKey, notification);
-		return id;
+	public Long sendGroupNotification(final String apiKey, final PushNotification notification, final List<Long> userIds) throws Exception {
+		executeTransaction(new TransactionCallback() {
+			public Object doInTransaction(TransactionStatus status) {
+				try {
+					createMessage(apiKey, notification, 1);
+					for (Long userId : userIds) {
+						Device device = new Device();
+						device.setApp(App.this);
+						device.setUserId(userId);
+						device.setChannelId(notification.getChannelId());
+						device.read("userId");
+						device.read();
+						Push push = new Push();
+						push.setApp(App.this);
+						push.setUserId(userId);
+						push.setMessageId(notification.getId());
+						push.setToken(device.getToken());
+						push.create();
+					}
+				} catch (Exception e) {
+					status.setRollbackOnly();
+				}
+				return null;
+			}
+		});
+		return notification.getId();
 	}
 
 	public void init() throws Exception {
@@ -154,23 +178,22 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 						}
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
 					status.setRollbackOnly();
 				}
 				return null;
 			}
 
-			private void disableDevice(String badToken) {
-				try {
-					Device device = new Device();
-					device.setApp(App.this);
-					device.setToken(badToken);
-					device.read("token");
-					device.execute("disable");
-				} catch (Exception e) {
-				}
-			}
 		});
+	}
+
+	private void disableDevice(String badToken) {
+		try {
+			Device device = new Device();
+			device.setApp(App.this);
+			device.setToken(badToken);
+			device.execute("disable");
+		} catch (Exception e) {
+		}
 	}
 
 	private Number findChannelId(String apiKey) throws Exception {
@@ -181,7 +204,7 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 		return channel.getId();
 	}
 
-	private Long createMessage(String apiKey, PushNotification notification) throws Exception {
+	private void createMessage(String apiKey, PushNotification notification, int workflow) throws Exception {
 		Message message = new Message();
 		message.setApp(this);
 		message.setTitle(notification.getTitle());
@@ -189,9 +212,10 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 		message.setChannelId(findChannelId(apiKey));
 		message.setCreationTime(new Datetime());
 		message.setLastModified(message.getCreationTime());
-		message.setWorkflow(0);
+		message.setWorkflow(workflow);
 		message.create();
-		return message.getId().longValue();
+		notification.setChannelId(message.getChannelId().longValue());
+		notification.setId(message.getId().longValue());
 	}
 
 }

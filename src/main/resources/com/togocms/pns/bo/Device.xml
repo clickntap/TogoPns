@@ -4,11 +4,21 @@
 		select
 		id,
 		platform,
-		token
+		token,
+		user_id as "userId",
+		channel_id as "channelId"
 		from
 		pns_device
 		where
 		id = ${this.id}
+	</read>
+	<read name="userId">
+		select
+		id
+		from
+		pns_device
+		where
+		user_id = ${this.userId}
 	</read>
 	<read name="token">
 		select
@@ -22,6 +32,6 @@
 		update pns_device
 		set disabled = 1
 		where
-		id = ${this.id}
+		token = ${this.token}
 	</execute>
 </bean>
