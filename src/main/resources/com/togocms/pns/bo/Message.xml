@@ -12,7 +12,7 @@
 		from
 		pns_message
 		where
-		id = ${this.id}
+		id = ${this.id} limit 1
 	</read>
 	<read name="next">
 		select

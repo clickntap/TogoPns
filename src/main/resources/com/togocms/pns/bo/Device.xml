@@ -10,7 +10,7 @@
 		from
 		pns_device
 		where
-		id = ${this.id}
+		id = ${this.id} limit 1
 	</read>
 	<read name="userId">
 		select
@@ -18,7 +18,7 @@
 		from
 		pns_device
 		where
-		user_id = ${this.userId}
+		user_id = ${this.userId} limit 1
 	</read>
 	<read name="token">
 		select
@@ -26,7 +26,7 @@
 		from
 		pns_device
 		where
-		token = ${this.token}
+		token = ${this.token} limit 1
 	</read>
 	<execute name="disable">
 		update pns_device
