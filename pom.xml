@@ -3,7 +3,7 @@
 
 	<groupId>com.clickntap</groupId>
 	<artifactId>togopns</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<packaging>jar</packaging>
 
 	<name>TogoPns</name>
@@ -63,7 +63,7 @@
 		<connection>scm:git:ssh://github.com/clickntap/TogoPns.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/clickntap/TogoPns.git</developerConnection>
 		<url>https://github.com/clickntap/TogoPns</url>
-		<tag>HEAD</tag>
+		<tag>togopns-1.1</tag>
 	</scm>
 
 	<dependencies>
