@@ -22,6 +22,15 @@
 		where
 		api_key = ${this.apiKey} limit 1
 	</read>
+	<read name="name">
+		select
+		id
+		from
+		pns_channel
+		where
+		name = ${this.name}
+		limit 1
+	</read>
 	<read-list name="all">
 		select id from pns_channel order by name
 	</read-list>

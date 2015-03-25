@@ -1,0 +1,8 @@
+<smart-controller>
+	<method name="register">
+		<bind name="legacyDevice" class="com.togocms.pns.bo.LegacyDevice" channel="app" />
+		<exec>
+			${legacyDevice.update()}
+		</exec>
+	</method>
+</smart-controller>

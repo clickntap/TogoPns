@@ -53,19 +53,23 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 			public Object doInTransaction(TransactionStatus status) {
 				try {
 					createMessage(apiKey, notification, 1);
-					for (Long userId : userIds) {
-						Device device = new Device();
-						device.setApp(App.this);
-						device.setUserId(userId);
-						device.setChannelId(notification.getChannelId());
-						device.read("userId");
-						device.read();
-						Push push = new Push();
-						push.setApp(App.this);
-						push.setUserId(userId);
-						push.setMessageId(notification.getId());
-						push.setToken(device.getToken());
-						push.create();
+					try {
+						for (Long userId : userIds) {
+							Device device = new Device();
+							device.setApp(App.this);
+							device.setUserId(userId);
+							device.setChannelId(notification.getChannelId());
+							device.read("userId");
+							device.read();
+							Push push = new Push();
+							push.setApp(App.this);
+							push.setUserId(userId);
+							push.setMessageId(notification.getId());
+							push.setToken(device.getToken());
+							push.setPlatform(device.getPlatform());
+							push.create();
+						}
+					} catch (Exception e) {
 					}
 				} catch (Exception e) {
 					status.setRollbackOnly();
@@ -153,6 +157,7 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 								List<Push> iosDevices = message.getNextIosPushes();
 								while (iosDevices.size() != 0) {
 									IOSNotification notification = new IOSNotification();
+									notification.setProduction(message.getChannel().getProduction().intValue() == 1);
 									notification.setKeyStorePath(geyKeyStorePath(message.getChannel()).getCanonicalPath());
 									notification.setKeyStorePassword(message.getChannel().getKeyStorePassword());
 									notification.setAlert(message.getAlert());

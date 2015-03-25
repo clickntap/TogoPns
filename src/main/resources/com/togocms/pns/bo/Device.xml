@@ -12,13 +12,23 @@
 		where
 		id = ${this.id} limit 1
 	</read>
+	<update>
+		update pns_device set
+		token = ${this.token},
+		uid = ${this.uid},
+		user_id = ${this.userId},
+		last_modified = ${this.lastModified},
+		disabled = ${this.disabled}
+		where
+		id = ${this.id}
+	</update>
 	<read name="userId">
 		select
 		id
 		from
 		pns_device
 		where
-		user_id = ${this.userId} limit 1
+		user_id = ${this.userId} and channel_id = ${this.channelId} limit 1
 	</read>
 	<read name="token">
 		select
@@ -28,10 +38,30 @@
 		where
 		token = ${this.token} limit 1
 	</read>
+	<read name="token+channel">
+		select
+		id
+		from
+		pns_device
+		where
+		token = ${this.token} and channel_id = ${this.channelId} limit 1
+	</read>
 	<execute name="disable">
 		update pns_device
 		set disabled = 1
 		where
 		token = ${this.token}
 	</execute>
+	<create>
+		insert into pns_device (
+		platform,
+		channel_id,
+		creation_time
+		) values (
+		${this.platform},
+		${this.channelId},
+		${this.creationTime}
+		)
+	</create>
+	<curr-val>select LAST_INSERT_ID() as id</curr-val>
 </bean>

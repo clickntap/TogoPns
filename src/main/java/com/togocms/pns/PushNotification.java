@@ -46,18 +46,27 @@ public class PushNotification {
 	}
 
 	public Long sendBroadcast() throws Exception {
-		com.togocms.pns.api.PushNotification notification = new com.togocms.pns.api.PushNotification();
-		notification.setTitle(getTitle());
-		notification.setAlert(getAlert());
+		com.togocms.pns.api.PushNotification notification = setup();
 		service.sendBroadcastNotification(apiKey, notification);
 		return getId();
 	}
 
 	public Long sendGroup(List<Long> ids) throws Exception {
+		com.togocms.pns.api.PushNotification notification = setup();
+		service.sendGroupNotification(apiKey, notification, ids);
+		return getId();
+	}
+
+	public Long send(Long id) throws Exception {
+		com.togocms.pns.api.PushNotification notification = setup();
+		service.sendNotification(apiKey, notification, id);
+		return getId();
+	}
+
+	private com.togocms.pns.api.PushNotification setup() {
 		com.togocms.pns.api.PushNotification notification = new com.togocms.pns.api.PushNotification();
 		notification.setTitle(getTitle());
 		notification.setAlert(getAlert());
-		service.sendGroupNotification(apiKey, notification, ids);
-		return getId();
+		return notification;
 	}
 }
