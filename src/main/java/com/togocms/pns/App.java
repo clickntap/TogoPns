@@ -61,13 +61,15 @@ public class App extends com.clickntap.hub.App implements PushNotificationServic
 							device.setChannelId(notification.getChannelId());
 							device.read("userId");
 							device.read();
-							Push push = new Push();
-							push.setApp(App.this);
-							push.setUserId(userId);
-							push.setMessageId(notification.getId());
-							push.setToken(device.getToken());
-							push.setPlatform(device.getPlatform());
-							push.create();
+							if (device.getToken() != null) {
+								Push push = new Push();
+								push.setApp(App.this);
+								push.setUserId(userId);
+								push.setMessageId(notification.getId());
+								push.setToken(device.getToken());
+								push.setPlatform(device.getPlatform());
+								push.create();
+							}
 						}
 					} catch (Exception e) {
 					}
