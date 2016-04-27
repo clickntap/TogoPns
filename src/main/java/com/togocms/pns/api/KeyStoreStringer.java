@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 public class KeyStoreStringer {
 
 	public static void main(String[] args) throws Exception {
-		byte[] bytes = FileUtils.readFileToByteArray(new File("etc/__.p12"));
+		byte[] bytes = FileUtils.readFileToByteArray(new File("etc/--.p12"));
 		System.out.println(new String(Base64.encodeBase64(bytes)));
 	}
 
