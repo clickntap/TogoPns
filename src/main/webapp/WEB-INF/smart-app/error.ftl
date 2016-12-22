@@ -1,9 +1,3 @@
-[#include "body-begin.ftl"]
-<style>
-pre {
-	margin:20px;
-}
-</style>
 <pre>
 STRIPECUBE SMART FRAMEWORK ${this.version} <i class="fa fa-fw fa-copyright"></i> stripecube.com<br>
 [#if exception.cause??]
@@ -15,5 +9,5 @@ ${exception.message!}
 ${exception.message!}
 [/#if]
 </pre>
-[#include "body-end.ftl"]
+
 

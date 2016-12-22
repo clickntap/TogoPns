@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean cache="device">
+	<read name="id">
+		select
+		id,
+		token,
+		user_id as "userId"
+		from
+		pns_device
+		where
+		id = ${this.id}
+	</read>
+	<update>
+	</update>
+	<delete>
+		delete from pns_device where id = ${this.id}
+	</delete>
+	<create>
+	</create>
+	<curr-val>select LAST_INSERT_ID() as id</curr-val>
+</bean>

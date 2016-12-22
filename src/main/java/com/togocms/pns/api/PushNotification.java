@@ -24,6 +24,14 @@ public class PushNotification implements Serializable {
 		this.alert = alert;
 	}
 
+	public String getMessage() {
+		return getAlert();
+	}
+
+	public void setMessage(String message) {
+		setAlert(message);
+	}
+
 	public Long getId() {
 		return id;
 	}

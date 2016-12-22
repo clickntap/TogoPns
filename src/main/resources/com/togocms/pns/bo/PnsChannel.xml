@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean cache="channel">
+	<read name="id">
+		select
+		id,
+		api_key as "apiKey",
+		android_type as "androidType",
+		secret_key as "androidSecretKey",
+		key_store as "appleKeyStore",
+		key_store_password as "appleKeyStorePassword",
+		production
+		from
+		pns_channel
+		where
+		id = ${this.id}
+	</read>
+	<read-list name="all">
+		select id from pns_channel
+	</read-list>
+	<read-list name="android-devices"> select id from pns_device where channel_id = ${this.id} and platform = 2</read-list>
+	<read-list name="apple-devices"> select id from pns_device where channel_id = ${this.id} and platform = 1</read-list>
+</bean>

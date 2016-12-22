@@ -12,7 +12,7 @@ public class AndroidNotification extends AbstractNotification {
 
 	public List<String> send() throws Exception {
 		Sender sender = new Sender(getSecretKey());
-		Message message = new Message.Builder().addData("TogoMessage", getTitle()).addData("TogoInfo", getPayload()).build();
+		Message message = new Message.Builder().addData("TogoMessage", getTitle()).addData("TogoInfo", "{}").build();
 		MulticastResult multicastResult = sender.send(message, getTokens(), 0);
 		List<String> badTokens = new ArrayList<String>();
 		int i = 0;

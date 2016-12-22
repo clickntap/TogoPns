@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean cache="message">
+	<read name="id">
+		select
+		id,
+		title,
+		message,
+		channel_id as "channelId"
+		from
+		pns_message
+		where
+		id = ${this.id} limit 1
+	</read>
+	<read name="next">
+		select
+		id
+		from
+		pns_message where workflow != 2
+		order by creation_time limit 1
+	</read>
+	<execute name="done">
+		update pns_message set
+			workflow = 2,
+			android_sent = ${this.androidSent},
+			android_fails = ${this.androidFails}
+		where id = ${this.id}
+	</execute>
+	<create>
+		insert into pns_message (
+		channel_id,
+		title,
+		message,
+		target_ids,
+		workflow,
+		ios_sent,
+		ios_fails,
+		android_sent,
+		android_fails,
+		creation_time,
+		last_modified
+		) values (
+		${this.channelId},
+		${this.title},
+		${this.message},
+		${this.targetIds},
+		0,
+		0,
+		0,
+		0,
+		0,
+		${this.now()},
+		${this.now()}
+		)
+	</create>
+	<curr-val>select LAST_INSERT_ID() as id</curr-val>
+</bean>

@@ -3,8 +3,6 @@ package com.togocms.pns.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONObject;
-
 public abstract class AbstractNotification implements Notification {
 
 	private String secretKey;
@@ -80,15 +78,6 @@ public abstract class AbstractNotification implements Notification {
 
 	public void setKeyStorePassword(String keyStorePassword) {
 		this.keyStorePassword = keyStorePassword;
-	}
-
-	public String getPayload() throws Exception {
-		JSONObject payload = new JSONObject();
-		if (getTitle() != null)
-			payload.put("title", getTitle());
-		if (getAlert() != null)
-			payload.put("message", getAlert());
-		return payload.toString();
 	}
 
 }
